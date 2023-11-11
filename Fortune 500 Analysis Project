@@ -58,23 +58,26 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
-##Project Follows:
+#Analysis:
 
 SELECT *
-FROM fortune_companies;
+FROM fortune_companies
+;
 
 #Number of companies in each Industry with Healthcare Benefits AND have at least 2 weeks paid time off.
 SELECT COUNT(*) AS Number_of_Companies, industry
 FROM fortune_companies
 WHERE healthcare_benefits = 1
 AND paid_time_off_days >= 14
-GROUP BY industry;
+GROUP BY industry
+;
 
 #Average tenure within each Industry.
 SELECT ROUND(AVG(avg_employee_tenure),1) AS avg_industry_tenure, industry
 FROM fortune_companies
 GROUP BY industry
-ORDER BY avg_industry_tenure asc;
+ORDER BY avg_industry_tenure asc
+;
 
 #Min, Max, and Average Tenure within each Industry and number of employees within each Industry.
 SELECT industry, ROUND(AVG(avg_employee_tenure),1) AS avg_tenure,
@@ -83,7 +86,8 @@ MAX(avg_employee_tenure) AS max_tenure,
 SUM(employees) AS total_employees
 FROM fortune_companies
 GROUP BY industry
-ORDER BY total_employees asc;
+ORDER BY total_employees asc
+;
 
 #Number of days and weeks of Paid Time Off, number of weeks of Maternity Leave, and if they have Healthcare Benefits per company.
 SELECT company_name, paid_time_off_days AS PTO_Days,
@@ -97,14 +101,16 @@ CASE WHEN healthcare_benefits = 1 THEN 'YES'
 ELSE 'NO'
 END AS Healthcare_Benefit
 FROM fortune_companies
-ORDER BY PTO_Weeks desc;
+ORDER BY PTO_Weeks desc
+;
 
 #Average Revenue in each Industry and Average Number of Employees.
 SELECT industry, ROUND(AVG(revenue),2) AS AVG_Revenue,
 ROUND(AVG(employees)) AS AVG_Employees
 FROM fortune_companies
 GROUP BY industry
-ORDER BY AVG_Revenue desc;
+ORDER BY AVG_Revenue desc
+;
 
 #Average Revenue for each Industry where there are a Minimum of 2 Weeks PTO on average with at least an average of 3000 employees.
 SELECT industry, ROUND(AVG(revenue),2) AS AVG_Revenue,
@@ -117,5 +123,15 @@ FROM fortune_companies
 GROUP BY industry
 HAVING AVG_PTO_Weeks >= 2
 AND AVG_Employees >= 3000
-ORDER BY AVG_Revenue desc;
+ORDER BY AVG_Revenue desc
+;
 
+#Within the Technology Industry what are the best and worst performing companies in terms of Revenue compared to the Average Revenue for the Technology Industry?
+SELECT company_name, min(revenue) as company_revenue, avg(revenue) as average_industry_revenue
+FROM fortune_companies
+WHERE industry = 'Technology'
+;
+SELECT company_name, max(revenue) as company_revenue, avg(revenue) as average_industry_revenue
+FROM fortune_companies
+WHERE industry = 'Technology'
+;
