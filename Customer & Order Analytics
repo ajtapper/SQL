@@ -1,0 +1,71 @@
+#In this SQL I am using multiple databases to quantify statistics and information about customers and order data.
+
+/* Q1. How many orders were placed in January? */
+SELECT 
+COUNT(orderID) AS Number_of_Orders
+FROM JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+;
+
+/* Q2. How many of those orders were for an iPhone? */
+SELECT 
+COUNT(orderID) AS Number_of_Orders
+FROM JanSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND Product = 'iPhone'
+;
+
+/* Q3. Select the Customer Account Numbers for all the Orders placed in February. */
+SELECT 
+customers.acctnum
+FROM customers
+INNER JOIN FebSales FEB
+ON customers.order_id = FEB.orderID
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+ORDER BY customers.acctnum desc
+;
+
+/* Q4. Which product was the cheapest one sold in January and what was the price? */
+SELECT 
+DISTINCT Product
+, MIN(price)
+FROM JanSales 
+GROUP BY Product, price
+ORDER BY price asc
+LIMIT 1
+;
+
+/* Q5. What is the total revenue for each product sold in January? */
+SELECT 
+Product
+, ROUND(SUM(Quantity) * price,2) AS total_revenue
+FROM JanSales
+GROUP BY Product
+HAVING total_revenue <> 0
+;
+
+/* Q6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue? */
+SELECT 
+Product
+, SUM(Quantity) AS Total_sold
+, ROUND(SUM(Quantity)*price,2) AS Total_revenue
+FROM FebSales
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID'
+AND location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY Product
+;
+
+/* Q7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers? */
+SELECT 
+COUNT(DISTINCT customers.acctnum) AS NUM_Customers
+, ROUND(AVG(Quantity*price),2) AS AVG_Spent
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers customers 
+ON customers.order_id = Feb.orderID
+WHERE Feb.Quantity > 2
+AND length(Feb.orderID) = 6
+;
