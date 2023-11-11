@@ -116,9 +116,6 @@ ORDER BY AVG_Revenue desc
 SELECT industry, ROUND(AVG(revenue),2) AS AVG_Revenue,
 ROUND(AVG(employees)) AS AVG_Employees,
 ROUND(AVG(paid_time_off_days)/7) AS AVG_PTO_Weeks,
-CASE WHEN healthcare_benefits = 1 THEN 'YES'
-ELSE 'NO'
-END AS Healthcare_Benefits
 FROM fortune_companies
 GROUP BY industry
 HAVING AVG_PTO_Weeks >= 2
