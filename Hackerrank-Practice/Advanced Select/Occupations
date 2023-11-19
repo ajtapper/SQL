@@ -1,9 +1,31 @@
 --Problem
 --*****************************************************
+/* Given the OCCUPATIONS table with two columns: Name, Occupation
 
++-------------+----------+
+| Column       | Type    |
++-------------+----------+
+| Name        | STRING   |
+| Occupation  | STRING   |
++-------------+----------+
+Occupation will only contain one of the following values: Doctor, Professor, Singer, or Actor.
 
+Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
 
-
-
-
+Note: Print NULL when there are no more names corresponding to an occupation. */
 --*****************************************************
+
+--Solution:
+SELECT 
+    MIN(doctor)
+    ,MIN(professor)
+    ,MIN(singer)
+    ,MIN(actor) 
+FROM (SELECT COUNT(*) OVER (PARTITION BY Occupation ORDER BY Name) as row_num
+        ,IF(Occupation = 'Doctor',Name,NULL) as doctor
+        ,IF(Occupation = 'Professor',Name,NULL) as professor
+        ,IF(Occupation = 'Singer',Name,NULL) as singer
+        ,IF(Occupation = 'Actor',Name,NULL) as actor
+    FROM OCCUPATIONS) derived_table
+    GROUP BY row_num
+;
