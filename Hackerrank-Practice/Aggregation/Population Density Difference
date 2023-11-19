@@ -1,0 +1,22 @@
+--Problem
+--***********************************************
+Given the CITY table with five columns: ID, NAME, COUNTRYCODE, DISTRICT, and POPULATION:
+
++-----------------------------+
+| Field        | Type         |
++-----------------------------+
+| ID           | INTEGER      |
+| NAME         | VARCHAR2(17) |
+| COUNTRYCODE  | VARCHAR2(3)  |
+| DISTRICT     | VARCHAR2(20) |
+| POPULATION   | INTEGER      |
++-----------------------------+
+
+Query the difference between the maximum and minimum populations in CITY. */
+--***********************************************
+
+--Solution
+SELECT 
+  (MAX(POPULATION) - MIN(POPULATION))
+FROM CITY
+;
