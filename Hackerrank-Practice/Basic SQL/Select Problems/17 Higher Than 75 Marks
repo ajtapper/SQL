@@ -1,6 +1,6 @@
 --Problem Statement
 --********************************************************
-/* Given a table STATION that holds data for three fields namely ID, Name, and Marks.
+/* Given a table STUDENTS that holds data for three fields namely ID, Name, and Marks.
 +-------------+------------+
 | Field       |   Type     |
 +-------------+------------+
