@@ -1,6 +1,23 @@
---Problem 
---******************************************************************
-Given the CITY table
+--Problem
+--***********************************************
+Given the CITY table with five columns: ID, NAME, COUNTRYCODE, DISTRICT, and POPULATION:
 
++-----------------------------+
+| Field        | Type         |
++-----------------------------+
+| ID           | INTEGER      |
+| NAME         | VARCHAR2(17) |
+| COUNTRYCODE  | VARCHAR2(3)  |
+| DISTRICT     | VARCHAR2(20) |
+| POPULATION   | INTEGER      |
++-----------------------------+
 
---******************************************************************
+Query the total population of all cities in CITY where District is California. */
+--***********************************************
+
+--Solution
+SELECT 
+  SUM(POPULATION)
+FROM CITY
+WHERE DISTRICT = 'California'
+;
