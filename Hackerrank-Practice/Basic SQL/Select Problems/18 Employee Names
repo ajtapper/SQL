@@ -1,6 +1,6 @@
 --Problem Statement
 --********************************************************
-/* Given a table STATION that holds data for four fields namely employee_id, name, months, and salary.
+/* Given a table Employee that holds data for four fields namely employee_id, name, months, and salary.
 +-------------+------------+
 | Field       |   Type     |
 +-------------+------------+
