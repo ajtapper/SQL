@@ -1,0 +1,53 @@
+--Problem
+--************************************************************************
+/* Julia asked her students to create some coding challenges. 
+
+Hackers                    Challenges
++---------------------+    +-------------------------+
+| Column    | Type    |    | Column        | Type    |
++---------------------+    +-------------------------+
+| hacker_id | INTEGER |    | challenge_id  | INTEGER |
+| name      | STRING  |    | hacker_id     | INTEGER |
++---------------------+    +-------------------------+
+Hackers: The hacker_id is the id of the hacker, and name is the name of the hacker. 
+Challenges: The challenge_id is the id of the challenge, and hacker_id is the id of the student who created the challenge. 
+
+Write a query to print the hacker_id, name, and the total number of challenges created by each student. Sort your results by the total number of challenges in descending order. If more than one student created the same number of challenges, then sort the result by hacker_id. If more than one student created the same number of challenges and the count is less than the maximum number of challenges created, then exclude those students from the result. */
+--************************************************************************
+
+--Solution
+WITH tbl_n_chall AS (
+  SELECT
+    h.hacker_id
+    ,h.name
+    ,COUNT(c.challenge_id) as n_chall
+  FROM hackers h
+  JOIN challenges c
+  ON h.hacker_id = c.hacker_id
+  GROUP BY h.hacker_id, h.name
+  )
+, tbl_c_chall AS (
+  SELECT 
+    n_chall
+    ,COUNT(n_chall) AS c_chall
+  FROM tbl_n_chall
+  GROUP BY n_chall
+  )
+
+SELECT 
+  tnc.hacker_id
+  ,tnc.name
+  ,tnc.n_chall
+FROM tbl_n_chall tnc
+JOIN tbl_c_chall tcc
+  ON tnc.n_chall = tcc.n_chall
+WHERE
+  tcc.c_chall <= 1
+OR 
+  tcc.n_chall =
+    (SELECT MAX(n_chall)
+    FROM tbl_n_chall)
+ORDER BY
+  tnc.n_chall DESC
+  ,tnc.hacker_id
+;
