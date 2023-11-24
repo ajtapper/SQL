@@ -1,4 +1,4 @@
---Problem
+--Problem (MySQL)
 --******************************************************
 /* You are given a table, Projects, containing three columns: Task_ID, Start_Date and End_Date. It is guaranteed that the difference between the End_Date and the Start_Date is equal to 1 day for each row in the table. */
 +----------------------+
@@ -14,10 +14,32 @@ Write a query to output the start and end dates of projects listed by the number
 --******************************************************
 
 --Output:
-    --start_date, end_date
+    --start_date, end_date (of projects)
 --Conditions:
-    --order by number of completion days, order by start_date
+    --ORDER BY number of completion days ASC, start_date (of project) ASC
 
 --Solution
+WITH Project_Start_Date AS (
 SELECT 
-    start_date, end_date
+    start_date
+    , RANK() OVER (ORDER BY start_date) as rank_start
+FROM Projects 
+WHERE start_date NOT IN (SELECT end_date FROM Projects)
+    )
+, Project_End_Date AS (
+SELECT 
+    end_date
+    , RANK() OVER (ORDER BY end_date) as rank_end
+FROM Projects 
+WHERE end_date NOT IN (SELECT start_date FROM Projects)
+    )
+
+SELECT
+    start_date
+    ,end_date
+FROM Project_Start_Date, Project_End_Date
+WHERE rank_start = rank_end
+ORDER BY 
+    DATEDIFF(end_date,start_date) ASC
+    ,start_date
+;
