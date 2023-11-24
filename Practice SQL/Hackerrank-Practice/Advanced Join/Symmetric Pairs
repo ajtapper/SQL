@@ -15,10 +15,25 @@ Write a query to output all such symmetric pairs in ascending order by the value
 --******************************************************
 
 --Output:
-    --all symmetric pairs 
+    --all symmetric pairs (X1 = Y2 and X2 = Y1)
 --Conditions:
     --ORDER BY: value of X ASC
-    --list rows such that X1 <= Y1
+    --X1 <= Y1
 
 --Solution
+WITH numbered AS (
+SELECT   X, Y, ROW_NUMBER() OVER (ORDER BY X,Y) AS rn
+FROM     Functions 
+)
 
+SELECT DISTINCT    
+        n.X
+        ,n.Y
+FROM    numbered n
+JOIN    numbered n2 
+    ON n.X = n2.Y 
+    AND n2.X = n.Y
+    AND n.rn <> n2.rn
+WHERE n.X <= n.Y
+ORDER BY X,Y
+;
