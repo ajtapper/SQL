@@ -1,4 +1,5 @@
-# These questions utilize the Chinook DataSet found on Kaggle 
+# Following queries based on Break Into Tech Questions by Charlotte Chaze; 
+## Using the chinook data set from Kaggle
 
 /* 1. Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to"). */
 SELECT 
@@ -92,6 +93,7 @@ FROM invoices inv
 WHERE InvoiceDate LIKE '2009%'
 ;
 
+
 /* 10. Write a query that includes the purchased track name with each invoice line ID. */
 SELECT 
 	inv.invoiceid
@@ -161,6 +163,3 @@ GROUP BY Agent_First, Agent_Last
 ORDER BY Total_Sales DESC
 LIMIT 1
 ;
-
-/* 15. 
-
